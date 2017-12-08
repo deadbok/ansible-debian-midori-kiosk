@@ -1,0 +1,79 @@
+---
+- name: Configure grub to for plymouth
+  template:
+    src: default-grub.j2
+    dest: /etc/default/grub
+  notify: Update grub2 generated files
+  become: yes
+
+- name: Add graphic driver modules to initramfs
+  lineinfile:
+    path: /etc/initramfs-tools/modules
+    line: "{{ item }}"
+  with_items: "{{ initramfs_modules }}"
+  notify: Update initramfs
+  become: yes
+
+- name: Configure plymouth
+  template:
+    src: plymouth.conf.j2
+    dest: /etc/plymouth/plymouth.conf
+  notify: Update initramfs
+  become: yes
+
+- name: Create systemd getty directory
+  file:
+    path: /etc/systemd/system/getty@tty1.service.d/
+    recurse: yes
+    state: directory
+  become: yes
+
+- name: Setup autologin as {{ autologin_user }}
+  template:
+    src: tty-override.conf.j2
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+  become: yes
+
+- name: Create /opt/kiosk/ directory
+  file:
+    path: /opt/kiosk
+    recurse: yes
+    state: directory
+  become: yes
+
+- name: Configure user for midori kiosk start up
+  template:
+    src: xsessionrc.j2
+    dest: /opt/kiosk/.xsessionrc
+  become: yes
+
+- name: Install scripts for midori kiosk start up
+  copy:
+    src: "{{ item }}"
+    dest: "/opt/kiosk/.{{ item }}"
+  become: yes
+  with_items:
+    - bash_logout
+    - bashrc
+    - profile
+
+- name: Set owner of kiosk files.
+  file:
+    dest: /opt/kiosk
+    owner: "{{ autologin_user }}"
+    group: "{{ autologin_group }}"
+    mode: 0744
+    recurse: yes
+  become: yes
+
+- name: Copy scripts to {{ kiosk_user_home_dir }}
+  copy:
+    src: "/opt/kiosk/{{ item }}"
+    dest: "{{ kiosk_user_home_dir }}/{{ item }}"
+    remote_src: yes
+  become: yes
+  with_items:
+    - .bash_logout
+    - .bashrc
+    - .profile
+    - .xsessionrc

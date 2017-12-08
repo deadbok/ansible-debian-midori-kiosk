@@ -1,0 +1,8 @@
+---
+- name: Update initramfs
+  command: "update-initramfs -u"
+  become: yes
+
+- name: Update grub2 generated files
+  command: "update-grub2"
+  become: yes

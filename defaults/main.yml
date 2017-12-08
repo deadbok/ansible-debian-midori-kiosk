@@ -1,0 +1,28 @@
+# States of packages and services #
+# State of packages needed, use "installed" or "latest" to make sure they are installed and optionally updated.
+kiosk_packagess_state: latest
+
+# Boot process #
+# Grub2 graphics mode.
+grub2_graphics_mode: "1024x768x32"
+
+# Modules to load in the initramfs (graphics drivers for plymouth)
+initramfs_modules:
+  - "intel_agp"
+  - "drm"
+  - "i915 modeset=1"
+
+# Plymouth theme
+plymouth_theme: solar
+
+# User running the kiosk mode processes.
+autologin_user: vagrant
+autologin_group: vagrant
+kiosk_user_home_dir: "/home/vagrant"
+
+# Midori #
+# URL to open in midori
+kiosk_url: https://groenholdt.net
+
+# Midori reloads the URL every x seconds.
+kiosk_reload_url_seconds: 30

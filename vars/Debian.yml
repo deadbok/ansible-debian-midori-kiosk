@@ -1,0 +1,12 @@
+---
+kiosk_packages:
+  - plymouth
+  - plymouth-themes
+  - xorg
+  - xserver-xorg
+  - midori
+  - matchbox-window-manager
+  - firmware-linux-nonfree
+
+apt_repo_uri: 'http://deb.debian.org'
+apt_components: 'main contrib non-free'

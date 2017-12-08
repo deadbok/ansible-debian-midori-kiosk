@@ -1,0 +1,19 @@
+---
+- name: Add the contrib and non-free packages lists
+  apt_repository:
+    repo: 'deb {{ apt_repo_uri }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} {{apt_components}}'
+    state: present
+  become: yes
+
+- name: Update apt cache.
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install Debian packages needed for te midori kiosk installation.
+  apt:
+    name: "{{ item }}"
+    state: "{{ kiosk_packagess_state }}"
+  with_items: "{{ kiosk_packages }}"
+  become: yes
