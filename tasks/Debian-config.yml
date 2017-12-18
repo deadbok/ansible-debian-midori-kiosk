@@ -6,6 +6,14 @@
   notify: Update grub2 generated files
   become: yes
 
+- name: Disable stable inteface names
+  lineinfile:
+    path: /etc/default/grub
+    line: 'GRUB_CMDLINE_LINUX="net.ifnames=0"'
+    insertafter: '^GRUB_CMDLINE_LINUX'
+  notify: Update grub2 generated files
+  become: yes
+
 - name: Add graphic driver modules to initramfs
   lineinfile:
     path: /etc/initramfs-tools/modules
@@ -39,6 +47,14 @@
     path: /opt/kiosk
     recurse: yes
     state: directory
+  register: kiosk_dir_result
+  become: yes
+
+- name: Copy files from {{ autologin_user }} files from {{ kiosk_user_home_dir }} to /opt/kiosk
+  synchronize:
+    src: "{{ kiosk_user_home_dir }}/"
+    dest: /opt/kiosk
+  delegate_to: "{{ inventory_hostname }}"
   become: yes
 
 - name: Configure user for midori kiosk start up

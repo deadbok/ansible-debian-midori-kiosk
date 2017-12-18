@@ -10,5 +10,5 @@ matchbox-window-manager &
 sleep 10
 while true; do
 	rsync -qr --delete --exclude='.Xauthority' /opt/kiosk/ {{ kiosk_user_home_dir }}/
-	midori -i {{ kiosk_reload_url_seconds }} -e Fullscreen -e Navigationbar -a {{ kiosk_url }}
+	{{ kiosk_command }}
 done

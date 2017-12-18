@@ -7,6 +7,7 @@ kiosk_packages:
   - midori
   - matchbox-window-manager
   - firmware-linux-nonfree
+  - chromium
 
 apt_repo_uri: 'http://deb.debian.org'
 apt_components: 'main contrib non-free'

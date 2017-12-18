@@ -6,6 +6,9 @@ kiosk_packagess_state: latest
 # Grub2 graphics mode.
 grub2_graphics_mode: "1024x768x32"
 
+# Use stable interface names. Disable when using vagrant.
+grub2_stable_netnames: true
+
 # Modules to load in the initramfs (graphics drivers for plymouth)
 initramfs_modules:
   - "intel_agp"
@@ -26,3 +29,7 @@ kiosk_url: https://groenholdt.net
 
 # Midori reloads the URL every x seconds.
 kiosk_reload_url_seconds: 30
+
+kiosk_command: "midori -i {{ kiosk_reload_url_seconds }} -e Fullscreen -e Navigationbar -a {{ kiosk_url }}"
+
+#kiosk_command: ."chromium {{ kiosk_url }}"
