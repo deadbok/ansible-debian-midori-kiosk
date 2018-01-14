@@ -22,6 +22,11 @@ plymouth_theme: solar
 autologin_user: vagrant
 autologin_group: vagrant
 kiosk_user_home_dir: "/home/vagrant"
+# Copy initial files from the kiosk user home directory to the template directory.
+kiosk_user_home_dir_sync: no
+
+# Enable good ol' Ctrl+Alt+Backspace to kill the X server.
+kiosk_enable_x_server_killing: yes
 
 # Midori #
 # URL to open in midori
@@ -30,6 +35,7 @@ kiosk_url: https://groenholdt.net
 # Midori reloads the URL every x seconds.
 kiosk_reload_url_seconds: 30
 
+# Command to run after starting X
 kiosk_command: "midori -i {{ kiosk_reload_url_seconds }} -e Fullscreen -e Navigationbar -a {{ kiosk_url }}"
 
-#kiosk_command: ."chromium {{ kiosk_url }}"
+#kiosk_command: "chromium {{ kiosk_url }}"

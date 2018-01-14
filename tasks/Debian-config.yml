@@ -6,7 +6,7 @@
   notify: Update grub2 generated files
   become: yes
 
-- name: Disable stable inteface names
+- name: Disable stable interface names
   lineinfile:
     path: /etc/default/grub
     line: 'GRUB_CMDLINE_LINUX="net.ifnames=0"'
@@ -50,11 +50,12 @@
   register: kiosk_dir_result
   become: yes
 
-- name: Copy files from {{ autologin_user }} files from {{ kiosk_user_home_dir }} to /opt/kiosk
+- name: Copy files from {{ kiosk_user_home_dir }} to /opt/kiosk
   synchronize:
     src: "{{ kiosk_user_home_dir }}/"
     dest: /opt/kiosk
   delegate_to: "{{ inventory_hostname }}"
+  when: kiosk_user_home_dir_sync
   become: yes
 
 - name: Configure user for midori kiosk start up
@@ -87,6 +88,19 @@
     src: "/opt/kiosk/{{ item }}"
     dest: "{{ kiosk_user_home_dir }}/{{ item }}"
     remote_src: yes
+  become: yes
+  with_items:
+    - .bash_logout
+    - .bashrc
+    - .profile
+    - .xsessionrc
+
+- name: Set owner of kiosk files in {{ kiosk_user_home_dir }}
+  file:
+    dest: "{{ kiosk_user_home_dir }}/{{ item }}"
+    owner: "{{ autologin_user }}"
+    group: "{{ autologin_group }}"
+    mode: 0744
   become: yes
   with_items:
     - .bash_logout

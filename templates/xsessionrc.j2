@@ -8,7 +8,10 @@ sleep 1; xset s off -dpms
 matchbox-window-manager &
 #Update files in /home/kiosk and start midori
 sleep 10
+{% if kiosk_enable_x_server_killing %}
+	setxkbmap -option terminate:ctrl_alt_bksp
+{% endif %}
 while true; do
-	rsync -qr --delete --exclude='.Xauthority' /opt/kiosk/ {{ kiosk_user_home_dir }}/
+	rsync -qr --delete --exclude='.ssh' --exclude='.Xauthority' /opt/kiosk/ {{ kiosk_user_home_dir }}/
 	{{ kiosk_command }}
 done
