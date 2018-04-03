@@ -36,6 +36,11 @@ kiosk_url: https://groenholdt.net
 kiosk_reload_url_seconds: 30
 
 # Command to run after starting X
+# midori:
+# -i n: Reload every n seconds
+# -e Fullscreen: Go full screen
+# -e Navigationbar: No naigation bar
+# -a url: Start at URL
 kiosk_command: "midori -i {{ kiosk_reload_url_seconds }} -e Fullscreen -e Navigationbar -a {{ kiosk_url }}"
 
 #kiosk_command: "chromium {{ kiosk_url }}"

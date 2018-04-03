@@ -1,0 +1,21 @@
+boot="{{ yaboot_boot_device }}"
+device={{ yaboot_device }}
+partition=3
+root="{{ yaboot_root }}"
+timeout=50
+install=/usr/lib/yaboot/yaboot
+magicboot=/usr/lib/yaboot/ofboot
+enablecdboot
+video=offb:off
+
+image=/boot/vmlinux
+        label=Linux
+        read-only
+        initrd=/boot/initrd.img
+        append="net.ifnames=0 quiet splash"
+
+image=/boot/vmlinux.old
+        label=old
+        read-only
+        initrd=/boot/initrd.img.old
+        append="net.ifnames=0 quiet splash"

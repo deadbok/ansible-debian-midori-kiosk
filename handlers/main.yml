@@ -6,3 +6,7 @@
 - name: Update grub2 generated files
   command: "update-grub2"
   become: yes
+
+- name: Update yaboot configuration
+  command: "ybin"
+  become: yes

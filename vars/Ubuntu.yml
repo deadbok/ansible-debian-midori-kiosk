@@ -1,0 +1,10 @@
+---
+kiosk_packages:
+  - plymouth
+  - plymouth-themes
+  - xorg
+  - xserver-xorg
+  - midori
+  - matchbox-window-manager
+  - linux-firmware
+
